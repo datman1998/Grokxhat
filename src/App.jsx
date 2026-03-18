@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import PromptStudio from "./PromptStudio";
+import "./promptStudio.css";
 
 // ─── Inline SVG icons ──────────────────────────────────────────────
 const SvgIcon = ({ children, size = 16, className = "" }) => (
@@ -16,6 +18,8 @@ const LoaderIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} class
 const ServerIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" y1="6" x2="6.01" y2="6" /><line x1="6" y1="18" x2="6.01" y2="18" /></SvgIcon>;
 const SettingsIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" /><circle cx="12" cy="12" r="3" /></SvgIcon>;
 const ChevronDownIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="m6 9 6 6 6-6" /></SvgIcon>;
+const WandIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M15 4V2" /><path d="M15 16v-2" /><path d="M8 9h2" /><path d="M20 9h2" /><path d="M17.8 11.8 19 13" /><path d="M15 9h.01" /><path d="M17.8 6.2 19 5" /><path d="m3 21 9-9" /><path d="M12.2 6.2 11 5" /></SvgIcon>;
+const MessageCircleIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22z" /></SvgIcon>;
 const TrashIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></SvgIcon>;
 const RotateCcwIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></SvgIcon>;
 
@@ -172,6 +176,7 @@ function SetupScreen({ onConfigure, initialWorkerUrl }) {
 
 // ─── Main App ────────────────────────────────────────────────────────────
 export default function App() {
+  const [view, setView] = useState("chat"); // "chat" | "studio"
   const [apiKey, setApiKey] = useState(() => localStorage.getItem("xai_key") || "");
   const [workerUrl, setWorkerUrl] = useState(() => localStorage.getItem("worker_url") || "");
   const [isConfigured, setIsConfigured] = useState(!!localStorage.getItem("xai_key") && !!localStorage.getItem("worker_url"));
@@ -293,6 +298,27 @@ export default function App() {
     return <SetupScreen onConfigure={handleConfigure} initialWorkerUrl={workerUrl} />;
   }
 
+  if (view === "studio") {
+    return (
+      <div style={{ position: "relative" }}>
+        <button
+          onClick={() => setView("chat")}
+          className="fixed top-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors"
+          style={{
+            background: "rgba(16, 185, 129, 0.15)",
+            border: "1px solid rgba(16, 185, 129, 0.3)",
+            color: "#10b981",
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          <MessageCircleIcon size={14} />
+          Tilbake til Chat
+        </button>
+        <PromptStudio />
+      </div>
+    );
+  }
+
   return (
     <div className="h-screen flex flex-col text-neutral-100" style={{ background: "#0a0a0a" }}>
       {/* Header */}
@@ -333,6 +359,13 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-1">
+          <button
+            onClick={() => setView("studio")}
+            className="text-neutral-500 hover:text-indigo-400 p-2 rounded-lg hover:bg-indigo-500/10 transition-colors"
+            title="Prompt Studio"
+          >
+            <WandIcon size={16} />
+          </button>
           <button
             onClick={clearChat}
             className="text-neutral-500 hover:text-neutral-300 p-2 rounded-lg hover:bg-white/5 transition-colors"
