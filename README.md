@@ -1,49 +1,61 @@
 # Grokxhat — Grok Prompt Builder
 
-En vakker, 100% offline prompt-bygging for **Grok/Flux** og **Midjourney**.
+A beautiful 100% offline prompt builder for **Grok / Flux** and **Midjourney**.
 
 ![Grok Prompt Builder](https://github.com/datman1998/Grokxhat/raw/main/index.html)
 
-## ✨ Features
+## Features
 
-- Chip-basert grensesnitt (emne, stil, lys, kamera, farger, stemning + **NSFW klær**)
-- Live preview mens du bygger
-- Randomize-knapp for overraskende kombinasjoner
-- To moduser: **Flux** (naturlig setning) og **Midjourney** (komma-tags)
-- Ferdige maler i "Tips & Triks"
-- Fullt offline etter første last
-- Ren HTML + CSS + vanilla JS (ingen avhengigheter)
+- Chip-based interface (subject, style, lighting, camera, colors, mood + **NSFW outfits**)
+- Live preview while you build
+- Randomize button for surprising combinations
+- Two modes: **Flux** (natural sentence) and **Midjourney** (comma tags)
+- Ready-made templates in "Tips & Tricks"
+- Fully offline after first load
+- Pure HTML + CSS + vanilla JS (no dependencies)
+- **Bilingual UI** — English by default, Norwegian one click away (auto-detected on first visit)
 
-## 🚀 Deploy
+## Language / Språk
 
-### Deploy to Vercel (anbefalt)
+The interface ships in **English** and **Norwegian**. The toggle in the top right
+(`EN` / `NO`) switches instantly and is remembered across visits. The *generated*
+prompt always stays English since that's what the image models want.
+
+Grensesnittet finnes på **engelsk** og **norsk**. Bryteren oppe til høyre (`EN` / `NO`)
+bytter umiddelbart og huskes mellom besøk. Selve prompten holdes alltid på engelsk
+fordi det er det bildemodellene vil ha.
+
+## Deploy
+
+### Deploy to Vercel (recommended)
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdatman1998%2FGrokxhat)
 
 ### GitHub Pages
-Gå til **Settings → Pages** → Source: `main` / `(root)`
+Go to **Settings → Pages** → Source: `main` / `(root)`
 
-## 📦 Lokal kjøring
+## Run locally
 
 ```bash
 git clone https://github.com/datman1998/Grokxhat.git
 cd Grokxhat
-# Åpne index.html direkte i nettleseren, eller:
+# Open index.html directly in a browser, or:
 npx serve .
 ```
 
-## 🖼️ Bruk
+## Usage
 
-1. Velg chips eller skriv i tekstfeltet
-2. Se live preview
-3. Klikk "Lag perfekt prompt"
-4. Kopier og lim inn i Grok Imagine eller Midjourney
+1. Pick chips or type in the text field
+2. Watch the live preview
+3. Click "Build perfect prompt"
+4. Copy and paste into Grok Imagine or Midjourney
 
-## ⚠️ NB
-Dette er **NSFW-versjonen** med spicy clothing-alternativer (leather, latex, micro bikini, harness osv.). Bruk ansvarlig.
+## NB
+This is the **NSFW build** with spicy clothing options (leather, latex, micro bikini,
+harness, etc.). Use responsibly.
 
 ---
 
-Laget med ❤️ for kreative prompt-entusiaster
+Made with care for creative prompt enthusiasts.
 
 Repo: https://github.com/datman1998/Grokxhat
