@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>Grok Mini-Prompt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    :root {
+      --gold: #e2c27d;
+      --gold-soft: rgba(226, 194, 125, 0.15);
+      --gold-line: rgba(226, 194, 125, 0.35);
+      --bg: #08080a;
+      --bg-grad-1: #0d0d10;
+      --bg-grad-2: #0a0a0c;
+      --surface: rgba(20, 20, 24, 0.7);
+      --surface-solid: #121216;
+      --surface-hi: #1a1a20;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hi: rgba(255, 255, 255, 0.12);
+      --text: #ececef;
+      --text-muted: #8a8a93;
+      --text-dim: #5a5a63;
+      --danger: #ff6b6b;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(226, 194, 125, 0.07), transparent 60%),
+        linear-gradient(160deg, var(--bg-grad-1), var(--bg-grad-2));
+      padding: env(safe-area-inset-top, 0) 16px env(safe-area-inset-bottom, 16px);
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 480px;
+      padding: 20px 0 28px;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 4px 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-mark {
+      width: 32px; height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--gold), #b48a3e);
+      color: #1a1208;
+      font-weight: 800;
+      display: grid; place-items: center;
+      font-size: 16px;
+      box-shadow: 0 4px 18px rgba(226, 194, 125, 0.2);
+    }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-title { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; }
+    .brand-sub { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 2px; }
+
+    .icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: grid; place-items: center;
+      transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease);
+    }
+    .icon-btn:hover { background: var(--surface-hi); color: var(--text); border-color: var(--border-hi); }
+    .icon-btn:active { transform: scale(0.96); }
+    .icon-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .topbar-actions { display: flex; gap: 8px; }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    /* Section */
+    .section { margin-bottom: 18px; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 9px;
+    }
+    .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .label-counter {
+      font-size: 10px;
+      color: var(--text-dim);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Subject */
+    .subject {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      resize: none;
+      line-height: 1.45;
+      transition: border-color 0.18s var(--ease), background 0.18s var(--ease);
+    }
+    .subject::placeholder { color: var(--text-dim); }
+    .subject:focus { border-color: var(--gold-line); background: rgba(0, 0, 0, 0.6); }
+
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border);
+      color: #c4c4cb;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.16s var(--ease), color 0.16s var(--ease), border-color 0.16s var(--ease), transform 0.08s var(--ease);
+      font-family: inherit;
+    }
+    .chip:hover { border-color: var(--border-hi); color: #fff; }
+    .chip:active { transform: scale(0.96); }
+    .chip[aria-pressed="true"] {
+      background: var(--gold-soft);
+      border-color: var(--gold-line);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    /* Aspect tiles (visual) */
+    .aspects {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .aspect {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 6px 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.16s var(--ease), border-color 0.16s var(--ease), color 0.16s var(--ease);
+      font-family: inherit;
+      color: var(--text-muted);
+    }
+    .aspect:hover { border-color: var(--border-hi); color: var(--text); }
+    .aspect[aria-pressed="true"] {
+      background: var(--gold-soft);
+      border-color: var(--gold-line);
+      color: var(--gold);
+    }
+    .aspect-glyph {
+      background: currentColor;
+      opacity: 0.85;
+      border-radius: 2px;
+    }
+    .aspect-label { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; }
+
+    /* Output */
+    .output-wrap {
+      margin-top: 4px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--gold-line);
+      border-radius: var(--radius);
+      padding: 14px 14px 12px;
+      min-height: 90px;
+      position: relative;
+    }
+    .output-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .output-head .label { color: var(--gold); }
+    .output {
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+      color: #e8e6e0;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      min-height: 30px;
+    }
+    .output .tok-subject { color: #fff; }
+    .output .tok-style { color: #b9d4a8; }
+    .output .tok-light { color: #f0d59a; }
+    .output .tok-mood { color: #d6b4ff; }
+    .output .tok-camera { color: #9cd7ff; }
+    .output .tok-quality { color: #ffb19c; }
+    .output .tok-aspect { color: var(--gold); font-weight: 600; }
+    .output .tok-neg { color: var(--danger); }
+    .output .tok-sep { color: var(--text-dim); margin: 0 2px; }
+    .output.empty { color: var(--text-dim); font-style: italic; font-family: inherit; }
+
+    /* Action bar */
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn {
+      border-radius: var(--radius);
+      padding: 13px 14px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: opacity 0.15s var(--ease), transform 0.08s var(--ease), background 0.15s var(--ease);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary {
+      background: linear-gradient(180deg, var(--gold), #c8a85e);
+      color: #1a1208;
+      box-shadow: 0 6px 22px rgba(226, 194, 125, 0.22);
+    }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .btn-ghost {
+      background: var(--surface-hi);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--border-hi); }
+    .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Presets */
+    .preset-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin: 0 -4px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .preset-row::-webkit-scrollbar { display: none; }
+    .preset {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s var(--ease), border-color 0.15s var(--ease);
+    }
+    .preset:hover { background: var(--surface-hi); border-color: var(--border-hi); }
+    .preset-emoji { font-size: 14px; line-height: 1; }
+
+    /* Negative toggle */
+    .neg-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .switch {
+      position: relative;
+      width: 30px;
+      height: 18px;
+      background: #2a2a30;
+      border-radius: 999px;
+      transition: background 0.15s var(--ease);
+    }
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 2px; left: 2px;
+      width: 14px; height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.18s var(--ease);
+    }
+    .neg-toggle input { display: none; }
+    .neg-toggle input:checked + .switch { background: var(--gold); }
+    .neg-toggle input:checked + .switch::after { transform: translateX(12px); }
+    .neg-input { margin-top: 8px; }
+
+    /* History */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 180px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .history-item {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.15s var(--ease), color 0.15s var(--ease);
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    .history-item:hover { background: var(--surface-hi); color: var(--text); }
+    .history-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .history-empty { font-size: 11px; color: var(--text-dim); padding: 4px; }
+
+    /* Collapsible section */
+    details { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; }
+    details > summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    details > summary::-webkit-details-marker { display: none; }
+    details > summary::after {
+      content: "";
+      width: 8px; height: 8px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg);
+      transition: transform 0.2s var(--ease);
+      margin-right: 4px;
+    }
+    details[open] > summary::after { transform: rotate(-135deg); margin-top: 4px; }
+    details > .section { margin-top: 12px; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: calc(env(safe-area-inset-bottom, 0) + 24px);
+      left: 50%;
+      transform: translate(-50%, 16px);
+      background: rgba(20, 20, 24, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--gold-line);
+      color: var(--gold);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.18s var(--ease), transform 0.22s var(--ease);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+    }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .toast svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+    @media (max-width: 380px) {
+      .aspects { grid-template-columns: repeat(2, 1fr); }
+      body { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">G</div>
+      <div class="brand-text">
+        <span class="brand-title">Mini-Prompt</span>
+        <span class="brand-sub">Casper · v3.0</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="randomize-btn" aria-label="Tilfeldig prompt" title="Tilfeldig">
+        <svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
+      </button>
+      <button class="icon-btn" id="reset-btn" aria-label="Nullstill alt" title="Nullstill">
+        <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <!-- Presets -->
+    <div class="section">
+      <div class="section-head">
+        <span class="label">Maler</span>
+      </div>
+      <div class="preset-row" id="preset-row" role="toolbar" aria-label="Maler"></div>
+    </div>
+
+    <!-- Subject -->
+    <div class="section">
+      <div class="section-head">
+        <span class="label">Motiv</span>
+        <span class="label-counter" id="subject-counter">0</span>
+      </div>
+      <textarea id="subject" class="subject" rows="2" maxlength="500"
+        placeholder="Hva vil du lage? F.eks: En rev som drikker te i et bibliotek..."
+        autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
+    </div>
+
+    <!-- Style -->
+    <div class="section">
+      <div class="section-head"><span class="label">Stil</span></div>
+      <div class="chips" data-group="style" role="group" aria-label="Stil"></div>
+    </div>
+
+    <!-- Lighting -->
+    <div class="section">
+      <div class="section-head"><span class="label">Lys</span></div>
+      <div class="chips" data-group="lighting" role="group" aria-label="Lyssetting"></div>
+    </div>
+
+    <!-- Aspect -->
+    <div class="section">
+      <div class="section-head"><span class="label">Format</span></div>
+      <div class="aspects" data-group="aspect" role="radiogroup" aria-label="Sideforhold"></div>
+    </div>
+
+    <!-- Advanced -->
+    <details>
+      <summary>Avansert</summary>
+
+      <div class="section">
+        <div class="section-head"><span class="label">Stemning</span></div>
+        <div class="chips" data-group="mood" role="group" aria-label="Stemning"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><span class="label">Kamera</span></div>
+        <div class="chips" data-group="camera" role="group" aria-label="Kamera"></div>
+      </div>
+
+      <div class="section">
+        <div class="section-head"><span class="label">Kvalitet</span></div>
+        <div class="chips" data-group="quality" role="group" aria-label="Kvalitet"></div>
+      </div>
+
+      <div class="section">
+        <label class="neg-toggle">
+          <input type="checkbox" id="neg-enable">
+          <span class="switch" aria-hidden="true"></span>
+          <span>Inkluder negativ prompt</span>
+        </label>
+        <textarea id="neg-text" class="subject neg-input" rows="2"
+          placeholder="Ting å unngå: blurry, watermark, deformed..."
+          hidden></textarea>
+      </div>
+    </details>
+
+    <!-- Output -->
+    <div class="output-wrap">
+      <div class="output-head">
+        <span class="label">Ferdig prompt</span>
+        <span class="label-counter" id="output-counter">0 tegn</span>
+      </div>
+      <div class="output empty" id="output" aria-live="polite">Velg en mal eller skriv et motiv for å starte…</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="copy-btn" type="button">
+        <svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        Kopier prompt
+      </button>
+      <button class="btn btn-ghost" id="share-btn" type="button" aria-label="Del">
+        <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
+      </button>
+    </div>
+
+    <!-- History -->
+    <details id="history-details">
+      <summary>Nylige</summary>
+      <div class="section">
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toast-text">Kopiert!</span>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "grok_mini_prompt_v3";
+  const HISTORY_KEY = "grok_mini_prompt_history_v3";
+  const MAX_HISTORY = 8;
+
+  const OPTIONS = {
+    style: [
+      ["Foto", "photorealistic, 8k resolution, highly detailed texture"],
+      ["Cinematisk", "cinematic film still, high dynamic range, dramatic composition"],
+      ["Anime", "anime style illustration, vibrant colors, clean lines"],
+      ["3D Render", "detailed 3D digital render, octane render style"],
+      ["Fantasy", "epic dark fantasy concept art, moody atmosphere"],
+      ["Maleri", "oil painting style, visible brush strokes, painterly"],
+      ["Skisse", "pencil sketch, hand-drawn, monochrome"],
+      ["Pixel", "pixel art, 16-bit retro style"],
+    ],
+    lighting: [
+      ["Gylden time", "golden hour lighting"],
+      ["Neon", "neon cyberpunk illumination"],
+      ["Dramatisk", "dramatic studio lighting, heavy contrast"],
+      ["Naturlig", "soft natural overcast daylight"],
+      ["Måneskinn", "moody moonlight, blue tones"],
+      ["Volumetrisk", "volumetric god rays, light shafts"],
+    ],
+    mood: [
+      ["Drømmende", "dreamy, ethereal atmosphere"],
+      ["Mørk", "dark, ominous mood"],
+      ["Lekent", "playful, whimsical vibe"],
+      ["Episk", "epic, awe-inspiring scale"],
+      ["Minimal", "minimalist, clean composition"],
+    ],
+    camera: [
+      ["Nærbilde", "close-up shot, shallow depth of field"],
+      ["Vidvinkel", "wide-angle lens, 24mm"],
+      ["Portrett", "portrait shot, 85mm bokeh"],
+      ["Drone", "aerial drone shot, top-down view"],
+      ["Makro", "extreme macro photography"],
+    ],
+    quality: [
+      ["Detaljert", "ultra-detailed, intricate details"],
+      ["Skarp", "sharp focus, crystal clear"],
+      ["Trending", "trending on artstation, masterpiece"],
+      ["HDR", "HDR, vibrant tones"],
+    ],
+    aspect: [
+      ["16:9", "--ar 16:9", 24, 14],
+      ["9:16", "--ar 9:16", 14, 24],
+      ["1:1", "--ar 1:1", 20, 20],
+      ["4:3", "--ar 4:3", 22, 17],
+    ],
+  };
+
+  const PRESETS = [
+    { emoji: "✨", label: "Portrett", apply: { style: ["photorealistic, 8k resolution, highly detailed texture"], lighting: ["golden hour lighting"], camera: ["portrait shot, 85mm bokeh"], aspect: "--ar 9:16" } },
+    { emoji: "🏔️", label: "Landskap", apply: { style: ["cinematic film still, high dynamic range, dramatic composition"], lighting: ["golden hour lighting"], camera: ["wide-angle lens, 24mm"], aspect: "--ar 16:9" } },
+    { emoji: "🤖", label: "Cyberpunk", apply: { style: ["detailed 3D digital render, octane render style"], lighting: ["neon cyberpunk illumination"], mood: ["dark, ominous mood"], aspect: "--ar 16:9" } },
+    { emoji: "🐉", label: "Fantasy", apply: { style: ["epic dark fantasy concept art, moody atmosphere"], lighting: ["volumetric god rays, light shafts"], mood: ["epic, awe-inspiring scale"], aspect: "--ar 16:9" } },
+    { emoji: "🎨", label: "Anime", apply: { style: ["anime style illustration, vibrant colors, clean lines"], mood: ["playful, whimsical vibe"], aspect: "--ar 9:16" } },
+    { emoji: "📐", label: "Logo", apply: { style: ["minimalist, clean composition"], quality: ["sharp focus, crystal clear"], aspect: "--ar 1:1" } },
+  ];
+
+  const state = {
+    subject: "",
+    style: [],
+    lighting: [],
+    mood: [],
+    camera: [],
+    quality: [],
+    aspect: "",
+    neg: { enabled: false, text: "" },
+  };
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => root.querySelectorAll(sel);
+  const els = {
+    subject: $("#subject"),
+    subjectCounter: $("#subject-counter"),
+    output: $("#output"),
+    outputCounter: $("#output-counter"),
+    copyBtn: $("#copy-btn"),
+    shareBtn: $("#share-btn"),
+    resetBtn: $("#reset-btn"),
+    randomizeBtn: $("#randomize-btn"),
+    presetRow: $("#preset-row"),
+    historyList: $("#history-list"),
+    historyDetails: $("#history-details"),
+    negEnable: $("#neg-enable"),
+    negText: $("#neg-text"),
+    toast: $("#toast"),
+    toastText: $("#toast-text"),
+  };
+
+  // ─── State persistence ───
+  function loadState() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      Object.assign(state, s);
+    } catch {}
+  }
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }
+  function loadHistory() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]"); }
+    catch { return []; }
+  }
+  function pushHistory(prompt) {
+    if (!prompt) return;
+    let hist = loadHistory().filter(p => p !== prompt);
+    hist.unshift(prompt);
+    hist = hist.slice(0, MAX_HISTORY);
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); } catch {}
+    renderHistory();
+  }
+
+  // ─── Render ───
+  function renderChips(group) {
+    const container = $(`[data-group="${group}"]`);
+    if (!container) return;
+    container.innerHTML = "";
+    OPTIONS[group].forEach(([label, value]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip";
+      btn.textContent = label;
+      btn.dataset.value = value;
+      const active = state[group].includes(value);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      container.appendChild(btn);
+    });
+  }
+
+  function renderAspects() {
+    const container = $('[data-group="aspect"]');
+    container.innerHTML = "";
+    OPTIONS.aspect.forEach(([label, value, w, h]) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "aspect";
+      btn.dataset.value = value;
+      btn.setAttribute("role", "radio");
+      const active = state.aspect === value;
+      btn.setAttribute("aria-checked", active ? "true" : "false");
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      btn.innerHTML = `<span class="aspect-glyph" style="width:${w}px;height:${h}px"></span><span class="aspect-label">${label}</span>`;
+      container.appendChild(btn);
+    });
+  }
+
+  function renderPresets() {
+    els.presetRow.innerHTML = "";
+    PRESETS.forEach((p, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "preset";
+      btn.dataset.idx = i;
+      btn.innerHTML = `<span class="preset-emoji">${p.emoji}</span><span>${p.label}</span>`;
+      els.presetRow.appendChild(btn);
+    });
+  }
+
+  function renderHistory() {
+    const hist = loadHistory();
+    els.historyList.innerHTML = "";
+    if (hist.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "history-empty";
+      empty.textContent = "Ingen prompts ennå.";
+      els.historyList.appendChild(empty);
+      return;
+    }
+    hist.forEach((p) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "history-item";
+      item.title = "Klikk for å kopiere";
+      item.dataset.prompt = p;
+      item.innerHTML = `<span class="history-text">${escapeHTML(p)}</span>`;
+      els.historyList.appendChild(item);
+    });
+  }
+
+  function escapeHTML(str) {
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ─── Build prompt ───
+  function buildPrompt() {
+    const parts = [];
+    const segments = [];
+
+    const sub = state.subject.trim();
+    if (sub) {
+      segments.push({ cls: "tok-subject", text: sub });
+      parts.push(sub);
+    }
+    const groupClass = { style: "tok-style", lighting: "tok-light", mood: "tok-mood", camera: "tok-camera", quality: "tok-quality" };
+    for (const key of Object.keys(groupClass)) {
+      if (state[key].length) {
+        const joined = state[key].join(", ");
+        segments.push({ cls: groupClass[key], text: joined });
+        parts.push(joined);
+      }
+    }
+    let result = parts.join(", ");
+    let hasAspect = false;
+    if (state.aspect) {
+      result += (result ? " " : "") + state.aspect;
+      hasAspect = true;
+    }
+    let hasNeg = false;
+    if (state.neg.enabled && state.neg.text.trim()) {
+      result += " --no " + state.neg.text.trim();
+      hasNeg = true;
+    }
+
+    return { plain: result, segments, hasAspect, hasNeg };
+  }
+
+  function renderOutput() {
+    const { plain, segments, hasAspect, hasNeg } = buildPrompt();
+    if (!plain) {
+      els.output.className = "output empty";
+      els.output.textContent = "Velg en mal eller skriv et motiv for å starte…";
+      els.outputCounter.textContent = "0 tegn";
+      els.copyBtn.disabled = true;
+      els.shareBtn.disabled = true;
+      return;
+    }
+    els.output.className = "output";
+    els.output.innerHTML = "";
+
+    segments.forEach((s, i) => {
+      if (i > 0) {
+        const sep = document.createElement("span");
+        sep.className = "tok-sep";
+        sep.textContent = ", ";
+        els.output.appendChild(sep);
+      }
+      const span = document.createElement("span");
+      span.className = s.cls;
+      span.textContent = s.text;
+      els.output.appendChild(span);
+    });
+    if (hasAspect) {
+      const sp = document.createElement("span");
+      sp.textContent = " ";
+      els.output.appendChild(sp);
+      const a = document.createElement("span");
+      a.className = "tok-aspect";
+      a.textContent = state.aspect;
+      els.output.appendChild(a);
+    }
+    if (hasNeg) {
+      const sp = document.createElement("span");
+      sp.textContent = " ";
+      els.output.appendChild(sp);
+      const n = document.createElement("span");
+      n.className = "tok-neg";
+      n.textContent = "--no " + state.neg.text.trim();
+      els.output.appendChild(n);
+    }
+
+    els.outputCounter.textContent = `${plain.length} tegn`;
+    els.copyBtn.disabled = false;
+    els.shareBtn.disabled = false;
+  }
+
+  function updateAll() {
+    els.subjectCounter.textContent = state.subject.length;
+    renderOutput();
+    saveState();
+  }
+
+  // ─── Toggling ───
+  function toggleChip(group, value, btn) {
+    const arr = state[group];
+    const idx = arr.indexOf(value);
+    if (idx > -1) {
+      arr.splice(idx, 1);
+      btn.setAttribute("aria-pressed", "false");
+    } else {
+      arr.push(value);
+      btn.setAttribute("aria-pressed", "true");
+    }
+    updateAll();
+  }
+
+  function toggleAspect(value, btn) {
+    const wasActive = state.aspect === value;
+    $$('[data-group="aspect"] .aspect').forEach((b) => {
+      b.setAttribute("aria-pressed", "false");
+      b.setAttribute("aria-checked", "false");
+    });
+    state.aspect = wasActive ? "" : value;
+    if (!wasActive) {
+      btn.setAttribute("aria-pressed", "true");
+      btn.setAttribute("aria-checked", "true");
+    }
+    updateAll();
+  }
+
+  function applyPreset(preset) {
+    for (const key of ["style", "lighting", "mood", "camera", "quality"]) {
+      state[key] = preset.apply[key] ? [...preset.apply[key]] : [];
+    }
+    state.aspect = preset.apply.aspect || "";
+    refreshAllChips();
+    updateAll();
+  }
+
+  function refreshAllChips() {
+    ["style", "lighting", "mood", "camera", "quality"].forEach(renderChips);
+    renderAspects();
+  }
+
+  // ─── Actions ───
+  async function copyPrompt() {
+    const { plain } = buildPrompt();
+    if (!plain) return;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(plain);
+      } else {
+        legacyCopy(plain);
+      }
+      showToast("Kopiert!");
+      pushHistory(plain);
+    } catch {
+      legacyCopy(plain);
+      showToast("Kopiert!");
+      pushHistory(plain);
+    }
+  }
+  function legacyCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch {}
+    document.body.removeChild(ta);
+  }
+
+  async function sharePrompt() {
+    const { plain } = buildPrompt();
+    if (!plain) return;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Grok Mini-Prompt", text: plain });
+        pushHistory(plain);
+      } catch {}
+    } else {
+      copyPrompt();
+    }
+  }
+
+  function resetAll() {
+    state.subject = "";
+    state.style = [];
+    state.lighting = [];
+    state.mood = [];
+    state.camera = [];
+    state.quality = [];
+    state.aspect = "";
+    state.neg = { enabled: false, text: "" };
+    els.subject.value = "";
+    els.negEnable.checked = false;
+    els.negText.value = "";
+    els.negText.hidden = true;
+    refreshAllChips();
+    updateAll();
+    showToast("Nullstilt");
+  }
+
+  function randomize() {
+    const pickN = (arr, n) => {
+      const copy = [...arr];
+      const out = [];
+      for (let i = 0; i < n && copy.length; i++) {
+        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0][1]);
+      }
+      return out;
+    };
+    state.style = pickN(OPTIONS.style, 1);
+    state.lighting = pickN(OPTIONS.lighting, 1);
+    state.mood = Math.random() > 0.4 ? pickN(OPTIONS.mood, 1) : [];
+    state.camera = Math.random() > 0.5 ? pickN(OPTIONS.camera, 1) : [];
+    state.quality = pickN(OPTIONS.quality, 1);
+    state.aspect = OPTIONS.aspect[Math.floor(Math.random() * OPTIONS.aspect.length)][1];
+    refreshAllChips();
+    updateAll();
+    showToast("Tilfeldig miks!");
+  }
+
+  let toastTimer;
+  function showToast(text) {
+    els.toastText.textContent = text;
+    els.toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => els.toast.classList.remove("show"), 1800);
+  }
+
+  // ─── Event wiring (delegation) ───
+  function wire() {
+    els.subject.addEventListener("input", (e) => {
+      state.subject = e.target.value;
+      updateAll();
+    });
+
+    document.addEventListener("click", (e) => {
+      const chip = e.target.closest(".chip");
+      if (chip) {
+        const group = chip.parentElement.dataset.group;
+        toggleChip(group, chip.dataset.value, chip);
+        return;
+      }
+      const aspect = e.target.closest(".aspect");
+      if (aspect) {
+        toggleAspect(aspect.dataset.value, aspect);
+        return;
+      }
+      const preset = e.target.closest(".preset");
+      if (preset) {
+        applyPreset(PRESETS[+preset.dataset.idx]);
+        showToast(PRESETS[+preset.dataset.idx].label + " brukt");
+        return;
+      }
+      const hist = e.target.closest(".history-item");
+      if (hist) {
+        const text = hist.dataset.prompt;
+        if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
+        else legacyCopy(text);
+        showToast("Kopiert!");
+        return;
+      }
+    });
+
+    els.copyBtn.addEventListener("click", copyPrompt);
+    els.shareBtn.addEventListener("click", sharePrompt);
+    els.resetBtn.addEventListener("click", resetAll);
+    els.randomizeBtn.addEventListener("click", randomize);
+
+    els.negEnable.addEventListener("change", (e) => {
+      state.neg.enabled = e.target.checked;
+      els.negText.hidden = !e.target.checked;
+      updateAll();
+    });
+    els.negText.addEventListener("input", (e) => {
+      state.neg.text = e.target.value;
+      updateAll();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+        e.preventDefault();
+        copyPrompt();
+      }
+    });
+  }
+
+  // ─── Init ───
+  function init() {
+    loadState();
+    els.subject.value = state.subject || "";
+    els.negEnable.checked = !!state.neg.enabled;
+    els.negText.value = state.neg.text || "";
+    els.negText.hidden = !state.neg.enabled;
+
+    renderPresets();
+    refreshAllChips();
+    renderHistory();
+    wire();
+    updateAll();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
