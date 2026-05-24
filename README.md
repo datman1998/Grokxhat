@@ -25,6 +25,21 @@ Grensesnittet finnes på **engelsk** og **norsk**. Bryteren oppe til høyre (`EN
 bytter umiddelbart og huskes mellom besøk. Selve prompten holdes alltid på engelsk
 fordi det er det bildemodellene vil ha.
 
+## Prompt Studio
+
+A second, more detailed builder lives at **`/prompt-studio.html`** — click the
+`STUDIO →` link in the header. It's a React page with:
+
+- Free-text subject + location fields
+- Camera, shot, pose, lighting presets
+- Style tag chips and detail / stylization / chaos sliders
+- Aspect-ratio radio + negative prompt
+- Randomize, copy-to-clipboard, and a 5-entry history (persisted in
+  `localStorage`)
+
+Like the main builder, the studio is fully client-side — no network calls,
+no API keys required.
+
 ## Deploy
 
 ### Deploy to Vercel (recommended)
