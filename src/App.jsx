@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import MiniPrompt from "./MiniPrompt";
 
 // ─── Inline SVG icons ──────────────────────────────────────────────
 const SvgIcon = ({ children, size = 16, className = "" }) => (
@@ -18,6 +19,7 @@ const SettingsIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} cla
 const ChevronDownIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="m6 9 6 6 6-6" /></SvgIcon>;
 const TrashIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /><line x1="10" y1="11" x2="10" y2="17" /><line x1="14" y1="11" x2="14" y2="17" /></SvgIcon>;
 const RotateCcwIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></SvgIcon>;
+const WandIcon = ({ size = 16, className = "" }) => <SvgIcon size={size} className={className}><path d="M15 4V2" /><path d="M15 16v-2" /><path d="M8 9h2" /><path d="M20 9h2" /><path d="M17.8 11.8 19 13" /><path d="M15 9h.01" /><path d="M17.8 6.2 19 5" /><path d="m3 21 9-9" /><path d="M12.2 6.2 11 5" /></SvgIcon>;
 
 // ─── Constants ───────────────────────────────────────────────
 const SYSTEM_PROMPT = { role: "system", content: "Du er en hjelpsom, skarp og direkte AI-assistent." };
@@ -87,7 +89,7 @@ function LoadingDots() {
   );
 }
 
-function SetupScreen({ onConfigure, initialWorkerUrl }) {
+function SetupScreen({ onConfigure, initialWorkerUrl, onOpenMiniPrompt }) {
   const [apiKey, setApiKey] = useState("");
   const [workerUrl, setWorkerUrl] = useState(initialWorkerUrl || "");
   const [error, setError] = useState("");
@@ -165,13 +167,27 @@ function SetupScreen({ onConfigure, initialWorkerUrl }) {
             Koble til
           </button>
         </form>
+
+        {onOpenMiniPrompt && (
+          <button
+            type="button"
+            onClick={onOpenMiniPrompt}
+            className="w-full mt-4 text-xs text-neutral-500 hover:text-amber-300 transition-colors"
+          >
+            Eller åpne Mini-Prompt generator →
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
 // ─── Main App ────────────────────────────────────────────────────────────
+const getViewFromHash = () =>
+  typeof window !== "undefined" && window.location.hash === "#mini-prompt" ? "mini" : "chat";
+
 export default function App() {
+  const [view, setView] = useState(getViewFromHash);
   const [apiKey, setApiKey] = useState(() => localStorage.getItem("xai_key") || "");
   const [workerUrl, setWorkerUrl] = useState(() => localStorage.getItem("worker_url") || "");
   const [isConfigured, setIsConfigured] = useState(!!localStorage.getItem("xai_key") && !!localStorage.getItem("worker_url"));
@@ -180,6 +196,20 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedModel, setSelectedModel] = useState(() => localStorage.getItem("selected_model") || "grok-4.20-beta-0309-non-reasoning");
+
+  useEffect(() => {
+    const onHash = () => setView(getViewFromHash());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  const goMini = useCallback(() => { window.location.hash = "mini-prompt"; }, []);
+  const goChat = useCallback(() => {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+      setView("chat");
+    }
+  }, []);
 
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -289,8 +319,12 @@ export default function App() {
     }
   }, [input, isLoading, messages, workerUrl, apiKey, selectedModel]);
 
+  if (view === "mini") {
+    return <MiniPrompt onBack={goChat} />;
+  }
+
   if (!isConfigured) {
-    return <SetupScreen onConfigure={handleConfigure} initialWorkerUrl={workerUrl} />;
+    return <SetupScreen onConfigure={handleConfigure} initialWorkerUrl={workerUrl} onOpenMiniPrompt={goMini} />;
   }
 
   return (
@@ -333,6 +367,13 @@ export default function App() {
         </div>
 
         <div className="flex items-center gap-1">
+          <button
+            onClick={goMini}
+            className="text-neutral-500 hover:text-amber-300 p-2 rounded-lg hover:bg-white/5 transition-colors"
+            title="Mini-Prompt generator"
+          >
+            <WandIcon size={16} />
+          </button>
           <button
             onClick={clearChat}
             className="text-neutral-500 hover:text-neutral-300 p-2 rounded-lg hover:bg-white/5 transition-colors"
