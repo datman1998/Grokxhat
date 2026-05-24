@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { DATA, EXAMPLES } from '../src/lib/data.js'
 
 const INDEX = resolve(__dirname, '..', 'index.html')
 const MINI = resolve(__dirname, '..', 'public', 'mini-prompt.html')
@@ -88,10 +89,9 @@ describe('i18n parity', () => {
   }
 })
 
-describe('index.html chip + example data shape', () => {
+describe('chip + example data shape (src/lib/data.js)', () => {
   it('every DATA entry has no, en, prompt fields', () => {
-    const data = loadFromFile(INDEX, 'DATA')
-    for (const [group, items] of Object.entries(data)) {
+    for (const [group, items] of Object.entries(DATA)) {
       expect(Array.isArray(items), `DATA.${group}`).toBe(true)
       items.forEach((item, idx) => {
         expect(typeof item.no, `DATA.${group}[${idx}].no`).toBe('string')
@@ -102,9 +102,8 @@ describe('index.html chip + example data shape', () => {
   })
 
   it('every EXAMPLES entry has bilingual title/category/desc + english prompt', () => {
-    const examples = loadFromFile(INDEX, 'EXAMPLES')
-    expect(Array.isArray(examples)).toBe(true)
-    examples.forEach((ex, idx) => {
+    expect(Array.isArray(EXAMPLES)).toBe(true)
+    EXAMPLES.forEach((ex, idx) => {
       for (const field of ['title', 'category', 'desc']) {
         expect(typeof ex[field]?.no, `EXAMPLES[${idx}].${field}.no`).toBe('string')
         expect(typeof ex[field]?.en, `EXAMPLES[${idx}].${field}.en`).toBe('string')
