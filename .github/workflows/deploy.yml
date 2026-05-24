@@ -56,3 +56,17 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Send deployment notification
+        if: success()
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            🚀 **Grokxhat** deployet til produksjon!
+
+            Commit: ${{ github.sha }}
+            Branch: main
+            Author: ${{ github.actor }}
+            Se: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
