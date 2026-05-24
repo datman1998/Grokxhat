@@ -4,32 +4,32 @@ import { createInitialState } from '../src/lib/state.js';
 
 const DATA = {
   subject: [
-    { no: 'Person', en: 'A detailed portrait of a person' },
-    { no: 'Landskap', en: 'A vast landscape' },
+    { no: 'Person', en: 'Person', prompt: 'A detailed portrait of a person' },
+    { no: 'Landskap', en: 'Landscape', prompt: 'A vast landscape' },
   ],
   outfit: [
-    { no: 'Bikini', en: 'wearing a tiny micro bikini' },
-    { no: 'Latex', en: 'wearing a glossy black latex bodysuit' },
+    { no: 'Bikini', en: 'Bikini', prompt: 'wearing a tiny micro bikini' },
+    { no: 'Latex', en: 'Latex', prompt: 'wearing a glossy black latex bodysuit' },
   ],
   style: [
-    { no: 'Foto', en: 'ultra-photorealistic, 8k resolution' },
-    { no: 'Anime', en: 'vibrant anime style illustration' },
+    { no: 'Foto', en: 'Photo', prompt: 'ultra-photorealistic, 8k resolution' },
+    { no: 'Anime', en: 'Anime', prompt: 'vibrant anime style illustration' },
   ],
   lighting: [
-    { no: 'Golden', en: 'warm golden hour lighting' },
+    { no: 'Golden', en: 'Golden', prompt: 'warm golden hour lighting' },
   ],
   camera: [
-    { no: '85mm', en: 'shot on 85mm lens' },
+    { no: '85mm', en: '85mm', prompt: 'shot on 85mm lens' },
   ],
   color: [
-    { no: 'Warm', en: 'warm color palette' },
+    { no: 'Warm', en: 'Warm', prompt: 'warm color palette' },
   ],
   mood: [
-    { no: 'Epic', en: 'epic scale, awe-inspiring atmosphere' },
+    { no: 'Epic', en: 'Epic', prompt: 'epic scale, awe-inspiring atmosphere' },
   ],
   aspect: [
-    { no: '1:1', en: '--ar 1:1' },
-    { no: '16:9', en: '--ar 16:9' },
+    { no: '1:1', en: '1:1', prompt: '--ar 1:1' },
+    { no: '16:9', en: '16:9', prompt: '--ar 16:9' },
   ],
 };
 

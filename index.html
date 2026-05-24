@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -24,14 +24,14 @@
       --accent: #d4af37;
       --error: #ff4a4a;
     }
-    
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-      -webkit-tap-highlight-color: transparent; 
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
-    
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -41,100 +41,121 @@
       display: flex;
       flex-direction: column;
     }
-    
+
     .header {
-      position: sticky; 
-      top: 0; 
+      position: sticky;
+      top: 0;
       z-index: 100;
-      background: rgba(13, 13, 13, 0.95); 
+      background: rgba(13, 13, 13, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 16px 20px; 
+      padding: 16px 20px;
       padding-top: calc(16px + env(safe-area-inset-top));
-      display: flex; 
-      align-items: center; 
+      display: flex;
+      align-items: center;
       justify-content: space-between;
     }
-    
-    .logo { 
-      display: flex; 
-      align-items: center; 
-      gap: 12px; 
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
-    
+
     .logo-icon {
-      width: 36px; 
+      width: 36px;
       height: 36px;
       background: linear-gradient(135deg, var(--gold), var(--gold-dim));
       border-radius: 10px;
-      display: flex; 
-      align-items: center; 
+      display: flex;
+      align-items: center;
       justify-content: center;
-      font-size: 18px; 
+      font-size: 18px;
       color: #0d0d0d;
       font-weight: bold;
     }
-    
-    .logo-text { 
-      font-size: 16px; 
-      font-weight: 700; 
-      letter-spacing: -0.02em; 
+
+    .logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
-    
-    .logo-sub { 
-      font-size: 11px; 
-      color: var(--text-muted); 
-      margin-top: 1px; 
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
     }
-    
-    .tabs { 
-      display: flex; 
-      gap: 4px; 
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lang-toggle {
+      background: #181818;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.06em;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+    .lang-toggle:hover { color: var(--gold); border-color: var(--gold-dim); }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
       background: #181818;
       padding: 4px;
       border-radius: 10px;
       border: 1px solid var(--border);
     }
-    
+
     .tab {
-      padding: 8px 16px; 
-      border-radius: 7px; 
-      border: none; 
+      padding: 8px 16px;
+      border-radius: 7px;
+      border: none;
       background: transparent;
-      color: var(--text-muted); 
-      cursor: pointer; 
-      font-size: 13px; 
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 13px;
       font-weight: 600;
       transition: all 0.2s ease;
     }
-    
-    .tab.active { 
-      background: var(--surface-card); 
-      color: var(--gold); 
+
+    .tab.active {
+      background: var(--surface-card);
+      color: var(--gold);
     }
-    
-    .content { 
-      max-width: 680px; 
-      margin: 0 auto; 
-      padding: 24px 20px 60px; 
+
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
       width: 100%;
       flex-grow: 1;
     }
 
-    .section { 
+    .section {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 20px;
-      margin-bottom: 20px; 
+      margin-bottom: 20px;
     }
-    
+
     .section-label {
-      font-size: 11px; 
-      font-weight: 700; 
+      font-size: 11px;
+      font-weight: 700;
       color: var(--gold);
-      letter-spacing: 0.1em; 
-      text-transform: uppercase; 
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       margin-bottom: 14px;
       display: flex;
       justify-content: space-between;
@@ -146,47 +167,47 @@
       font-size: 10px;
       font-weight: normal;
     }
-    
+
     .mode-toggle {
-      display: flex; 
-      background: #0d0d0d; 
-      border-radius: 12px; 
+      display: flex;
+      background: #0d0d0d;
+      border-radius: 12px;
       padding: 4px;
       border: 1px solid var(--border);
     }
-    
+
     .mode-btn {
       flex: 1;
-      padding: 10px; 
-      border-radius: 8px; 
-      font-size: 13px; 
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
       font-weight: 600;
       text-align: center;
       color: var(--text-muted);
-      cursor: pointer; 
+      cursor: pointer;
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    .mode-btn.active { 
-      background: var(--gold); 
-      color: #0d0d0d; 
+
+    .mode-btn.active {
+      background: var(--gold);
+      color: #0d0d0d;
       box-shadow: 0 4px 12px rgba(226, 194, 125, 0.2);
     }
-    
-    .chips { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 8px; 
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    
+
     .chip {
-      padding: 8px 14px; 
-      border-radius: 999px; 
+      padding: 8px 14px;
+      border-radius: 999px;
       border: 1px solid var(--border);
-      background: rgba(255,255,255,0.02); 
-      color: var(--text-dim); 
+      background: rgba(255,255,255,0.02);
+      color: var(--text-dim);
       cursor: pointer;
-      font-size: 13px; 
+      font-size: 13px;
       transition: all 0.15s ease;
       user-select: none;
     }
@@ -195,36 +216,36 @@
       border-color: #444;
       background: rgba(255,255,255,0.05);
     }
-    
+
     .chip.selected {
-      border-color: var(--gold); 
+      border-color: var(--gold);
       background: var(--gold-bg);
-      color: var(--gold); 
+      color: var(--gold);
       font-weight: 600;
     }
-    
+
     .text-input, .neg-input {
-      width: 100%; 
-      background: #0d0d0d; 
+      width: 100%;
+      background: #0d0d0d;
       border: 1px solid var(--border);
-      border-radius: 12px; 
-      padding: 14px 16px; 
-      color: var(--text); 
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text);
       font-size: 14px;
-      font-family: inherit; 
-      outline: none; 
+      font-family: inherit;
+      outline: none;
       transition: border-color 0.2s;
     }
 
     .text-input:focus, .neg-input:focus {
       border-color: var(--gold-dim);
     }
-    
-    .text-input { 
-      resize: vertical; 
+
+    .text-input {
+      resize: vertical;
       margin-top: 12px;
     }
-    
+
     .button-group {
       display: flex;
       gap: 12px;
@@ -233,13 +254,13 @@
     }
 
     .btn-generate {
-      flex: 2; 
-      padding: 16px; 
+      flex: 2;
+      padding: 16px;
       background: linear-gradient(135deg, var(--gold), var(--gold-dim));
-      color: #0d0d0d; 
-      border: none; 
-      border-radius: 14px; 
-      font-size: 15px; 
+      color: #0d0d0d;
+      border: none;
+      border-radius: 14px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -253,17 +274,17 @@
     .btn-generate:active {
       transform: scale(0.98);
     }
-    
-    .btn-random { 
-      flex: 1; 
-      padding: 16px; 
-      background: var(--surface); 
+
+    .btn-random {
+      flex: 1;
+      padding: 16px;
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 14px; 
-      font-size: 14px; 
-      font-weight: 600; 
-      cursor: pointer; 
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
       transition: background 0.2s;
     }
 
@@ -295,15 +316,15 @@
       line-height: 1.4;
       word-break: break-word;
     }
-    
+
     /* Result Box styling */
-    .result-box { 
-      background: var(--surface-card); 
+    .result-box {
+      background: var(--surface-card);
       border: 1px solid var(--gold-dim);
-      border-radius: 16px; 
-      padding: 24px; 
+      border-radius: 16px;
+      padding: 24px;
       margin-top: 24px;
-      display: none; 
+      display: none;
       animation: fadeIn 0.3s ease-out;
     }
 
@@ -312,8 +333,8 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .result-box.visible { 
-      display: block; 
+    .result-box.visible {
+      display: block;
     }
 
     .result-header {
@@ -330,7 +351,7 @@
       color: var(--gold);
       letter-spacing: 0.05em;
     }
-    
+
     .result-text {
       font-size: 15px;
       line-height: 1.6;
@@ -361,7 +382,7 @@
       background: #2f2f2f;
       border-color: var(--gold);
     }
-    
+
     /* Examples page */
     .tips-container {
       display: flex;
@@ -422,21 +443,21 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     /* Custom Toast Notification */
     .toast {
-      position: fixed; 
-      bottom: calc(30px + env(safe-area-inset-bottom)); 
+      position: fixed;
+      bottom: calc(30px + env(safe-area-inset-bottom));
       left: 50%;
-      transform: translateX(-50%) translateY(100px); 
-      background: #1e1e1e; 
+      transform: translateX(-50%) translateY(100px);
+      background: #1e1e1e;
       border: 1px solid var(--gold);
-      color: var(--gold); 
-      padding: 12px 24px; 
-      border-radius: 999px; 
-      font-size: 13px; 
+      color: var(--gold);
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 13px;
       font-weight: 600;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 999;
       box-shadow: 0 8px 24px rgba(0,0,0,0.5);
       display: flex;
@@ -444,9 +465,9 @@
       gap: 8px;
       pointer-events: none;
     }
-    
-    .toast.show { 
-      transform: translateX(-50%) translateY(0); 
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
     }
   </style>
 </head>
@@ -457,12 +478,15 @@
     <div class="logo-icon">✦</div>
     <div>
       <div class="logo-text">Grokxhat</div>
-      <div class="logo-sub">Prompt Builder v2.4 • Auto-deploy via Vercel</div>
+      <div class="logo-sub" data-i18n="brand_sub">Prompt Builder v2.4 • Auto-deploy via Vercel</div>
     </div>
   </div>
-  <div class="tabs">
-    <button id="tab-btn-builder" class="tab active" onclick="showTab('builder')">Bygg</button>
-    <button id="tab-btn-examples" class="tab" onclick="showTab('examples')">Tips & Triks</button>
+  <div class="header-actions">
+    <button id="lang-toggle" class="lang-toggle" type="button" onclick="toggleLang()" title="Switch language">EN</button>
+    <div class="tabs">
+      <button id="tab-btn-builder" class="tab active" onclick="showTab('builder')" data-i18n="tab_build">Build</button>
+      <button id="tab-btn-examples" class="tab" onclick="showTab('examples')" data-i18n="tab_tips">Tips &amp; Tricks</button>
+    </div>
   </div>
 </div>
 
@@ -472,96 +496,96 @@
 
     <!-- Mode toggle -->
     <div class="section">
-      <span class="section-label">PROMPT-STIL</span>
+      <span class="section-label" data-i18n="section_prompt_style">PROMPT STYLE</span>
       <div class="mode-toggle">
-        <div onclick="setMode('flux')" id="mode-flux" class="mode-btn active">Grok / Flux (Naturlig stil)</div>
-        <div onclick="setMode('midjourney')" id="mode-midjourney" class="mode-btn">Midjourney (Komma-tags)</div>
+        <div onclick="setMode('flux')" id="mode-flux" class="mode-btn active" data-i18n="mode_flux">Grok / Flux (natural sentence)</div>
+        <div onclick="setMode('midjourney')" id="mode-midjourney" class="mode-btn" data-i18n="mode_midjourney">Midjourney (comma tags)</div>
       </div>
     </div>
 
     <!-- 01 - Subject -->
     <div class="section">
-      <span class="section-label">01 — Emne / Hovedmotiv</span>
+      <span class="section-label"><span data-i18n="section_subject">01 — Subject / Main motif</span></span>
       <div class="chips" id="chips-subject"></div>
-      <textarea class="text-input" id="details" rows="2" placeholder="Skriv fritt for å detaljere motivet ditt (f.eks: 'En gammel fisker med regnfrakk på brygga')..." oninput="updateLivePreview()"></textarea>
+      <textarea class="text-input" id="details" rows="2" data-i18n-placeholder="details_placeholder" placeholder="Write freely to detail your subject (e.g. 'An old fisherman in a raincoat on the dock')..." oninput="updateLivePreview()"></textarea>
     </div>
 
-    <!-- NEW: Klær & Outfit (NSFW) -->
+    <!-- 02 - Outfit (NSFW) -->
     <div class="section">
-      <span class="section-label">02 — Klær & Outfit <span style="color:#ff6b6b; font-size:10px;">NSFW</span> <span class="counter" id="count-outfit">(0 valgt)</span></span>
+      <span class="section-label"><span><span data-i18n="section_outfit">02 — Clothing &amp; Outfit</span> <span style="color:#ff6b6b; font-size:10px;" data-i18n="nsfw_tag">NSFW</span></span> <span class="counter" id="count-outfit" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-outfit"></div>
     </div>
 
     <!-- 03 - Style -->
     <div class="section">
-      <span class="section-label">03 — Kunstnerisk Stil <span class="counter" id="count-style">(0 valgt)</span></span>
+      <span class="section-label"><span data-i18n="section_style_chips">03 — Artistic style</span> <span class="counter" id="count-style" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-style"></div>
     </div>
 
     <!-- 04 - Lighting -->
     <div class="section">
-      <span class="section-label">04 — Lyssetting <span class="counter" id="count-lighting">(0 valgt)</span></span>
+      <span class="section-label"><span data-i18n="section_lighting">04 — Lighting</span> <span class="counter" id="count-lighting" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-lighting"></div>
     </div>
 
     <!-- 05 - Camera & Framing -->
     <div class="section">
-      <span class="section-label">05 — Kamera & Brennvidde <span class="counter" id="count-camera">(0 valgt)</span></span>
+      <span class="section-label"><span data-i18n="section_camera">05 — Camera &amp; lens</span> <span class="counter" id="count-camera" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-camera"></div>
     </div>
 
     <!-- 06 - Color Palette -->
     <div class="section">
-      <span class="section-label">06 — Fargeprofil <span class="counter" id="count-color">(0 valgt)</span></span>
+      <span class="section-label"><span data-i18n="section_color">06 — Color palette</span> <span class="counter" id="count-color" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-color"></div>
     </div>
 
     <!-- 07 - Mood -->
     <div class="section">
-      <span class="section-label">07 — Stemning <span class="counter" id="count-mood">(0 valgt)</span></span>
+      <span class="section-label"><span data-i18n="section_mood">07 — Mood</span> <span class="counter" id="count-mood" data-counter>(0 selected)</span></span>
       <div class="chips" id="chips-mood"></div>
     </div>
 
     <!-- 08 - Aspect Ratio -->
     <div class="section">
-      <span class="section-label">08 — Sideforhold (Aspect Ratio)</span>
+      <span class="section-label"><span data-i18n="section_aspect">08 — Aspect ratio</span></span>
       <div class="chips" id="chips-aspect"></div>
     </div>
 
     <!-- Negatives -->
     <div class="section">
-      <span class="section-label">Valgfri Negativ Prompt <span style="font-weight:400; color:var(--text-muted);">(kun Midjourney)</span></span>
-      <input type="text" class="neg-input" id="negative" placeholder="Ting du vil unngå (f.eks: text, watermark, blurry, extra limbs)..." oninput="updateLivePreview()">
+      <span class="section-label"><span data-i18n="section_negative">Optional negative prompt</span> <span style="font-weight:400; color:var(--text-muted);" data-i18n="negative_only_mj">(Midjourney only)</span></span>
+      <input type="text" class="neg-input" id="negative" data-i18n-placeholder="negative_placeholder" placeholder="Things to avoid (e.g. text, watermark, blurry, extra limbs)..." oninput="updateLivePreview()">
     </div>
 
     <!-- Live Preview Dynamic Panel -->
     <div class="section" style="border-color: #333;">
-      <span class="section-label" style="color: var(--text-muted);">Sanntids Utkast</span>
+      <span class="section-label" style="color: var(--text-muted);" data-i18n="section_preview">Live preview</span>
       <div class="live-preview-box">
-        <div class="live-preview-title">Sammensatt rå-prompt:</div>
-        <div class="live-preview-text" id="live-preview-text">Ingenting valgt enda...</div>
+        <div class="live-preview-title" data-i18n="preview_subtitle">Assembled raw prompt:</div>
+        <div class="live-preview-text" id="live-preview-text" data-i18n="preview_empty">Nothing selected yet...</div>
       </div>
     </div>
 
     <!-- Action Buttons -->
     <div class="button-group">
       <button class="btn-generate" id="btn-generate" onclick="generate()">
-        <span id="gen-icon">✦</span> <span id="gen-text">Lag perfekt prompt</span>
+        <span id="gen-icon">✦</span> <span id="gen-text" data-i18n="btn_generate">Build perfect prompt</span>
       </button>
-      <button class="btn-random" onclick="randomize()">🎲 Overrask meg</button>
+      <button class="btn-random" onclick="randomize()" data-i18n="btn_random">🎲 Surprise me</button>
     </div>
 
     <!-- Result display -->
     <div class="result-box" id="result-box">
       <div class="result-header">
-        <span class="result-label">Ferdig prompt</span>
+        <span class="result-label" data-i18n="result_label">Finished prompt</span>
       </div>
       <p class="result-text" id="result-text"></p>
       <button class="btn-copy" id="btn-copy" onclick="copyPrompt()">
-        <span>📋 Kopier til utklippstavle</span>
+        <span data-i18n="btn_copy">📋 Copy to clipboard</span>
       </button>
-      <div style="margin-top: 14px; font-size: 11.5px; color: var(--text-dim); line-height: 1.5;">
-        💡 <strong>Tips:</strong> Kopier prompten og lim den inn direkte i Grok (Imagine) eller Midjourney. For Flux/Grok fungerer naturlige setninger best.
+      <div id="result-tip" data-i18n-html="tip_text" style="margin-top: 14px; font-size: 11.5px; color: var(--text-dim); line-height: 1.5;">
+        💡 <strong>Tip:</strong> Copy the prompt and paste it straight into Grok (Imagine) or Midjourney. Natural sentences work best for Flux/Grok.
       </div>
     </div>
 
@@ -572,8 +596,8 @@
     <div class="greeting-banner" style="margin-bottom: 20px;">
       <span class="greeting-emoji">💡</span>
       <div class="greeting-text">
-        <h4>Casper sine snarveier</h4>
-        <p>Her har du ferdige maler klare til bruk. Klikk på et kort for å laste det direkte inn i byggeren.</p>
+        <h4 data-i18n="greeting_h4">Quick shortcuts</h4>
+        <p data-i18n="greeting_p">Ready-made templates. Click a card to load it directly into the builder.</p>
       </div>
     </div>
     <div class="tips-container" id="examples-list">
@@ -582,7 +606,7 @@
   </div>
 </div>
 
-<div class="toast" id="toast">✓ Kopiert!</div>
+<div class="toast" id="toast">✓</div>
 
 <script type="module">
   import { DATA, EXAMPLES } from './src/lib/data.js';
@@ -591,15 +615,154 @@
   import { toggleSelection } from './src/lib/toggle.js';
   import { randomizeSelection } from './src/lib/randomize.js';
 
+  // ─── i18n table ───
+  const STRINGS = {
+    en: {
+      brand_sub: "Prompt Builder v2.4 • Auto-deploy via Vercel",
+      tab_build: "Build",
+      tab_tips: "Tips & Tricks",
+      section_prompt_style: "PROMPT STYLE",
+      mode_flux: "Grok / Flux (natural sentence)",
+      mode_midjourney: "Midjourney (comma tags)",
+      section_subject: "01 — Subject / Main motif",
+      details_placeholder: "Write freely to detail your subject (e.g. 'An old fisherman in a raincoat on the dock')...",
+      section_outfit: "02 — Clothing & Outfit",
+      nsfw_tag: "NSFW",
+      section_style_chips: "03 — Artistic style",
+      section_lighting: "04 — Lighting",
+      section_camera: "05 — Camera & lens",
+      section_color: "06 — Color palette",
+      section_mood: "07 — Mood",
+      section_aspect: "08 — Aspect ratio",
+      section_negative: "Optional negative prompt",
+      negative_only_mj: "(Midjourney only)",
+      negative_placeholder: "Things to avoid (e.g. text, watermark, blurry, extra limbs)...",
+      section_preview: "Live preview",
+      preview_subtitle: "Assembled raw prompt:",
+      preview_empty: "Nothing selected yet...",
+      btn_generate: "Build perfect prompt",
+      btn_random: "🎲 Surprise me",
+      result_label: "Finished prompt",
+      btn_copy: "📋 Copy to clipboard",
+      tip_text: "💡 <strong>Tip:</strong> Copy the prompt and paste it straight into Grok (Imagine) or Midjourney. Natural sentences work best for Flux/Grok.",
+      greeting_h4: "Quick shortcuts",
+      greeting_p: "Ready-made templates. Click a card to load it directly into the builder.",
+      counter_selected: "({n} selected)",
+      toast_max3: "Max 3 selections per category for best results!",
+      toast_copied: "✓ Prompt copied to clipboard!",
+      toast_copy_fail: "Couldn't copy automatically. Try selecting manually.",
+      toast_copy_err: "Failed to copy automatically.",
+      toast_random: "🎲 Random NSFW combo picked!",
+      toast_template: "Template loaded into the text box!",
+      toast_generated: "✦ NSFW prompt ready! Copy and use it in Grok or Midjourney.",
+      lang_toggle_label: "NO",
+      lang_toggle_title: "Bytt til norsk",
+    },
+    no: {
+      brand_sub: "Prompt Builder v2.4 • Auto-deploy via Vercel",
+      tab_build: "Bygg",
+      tab_tips: "Tips & Triks",
+      section_prompt_style: "PROMPT-STIL",
+      mode_flux: "Grok / Flux (Naturlig stil)",
+      mode_midjourney: "Midjourney (Komma-tags)",
+      section_subject: "01 — Emne / Hovedmotiv",
+      details_placeholder: "Skriv fritt for å detaljere motivet ditt (f.eks: 'En gammel fisker med regnfrakk på brygga')...",
+      section_outfit: "02 — Klær & Outfit",
+      nsfw_tag: "NSFW",
+      section_style_chips: "03 — Kunstnerisk Stil",
+      section_lighting: "04 — Lyssetting",
+      section_camera: "05 — Kamera & Brennvidde",
+      section_color: "06 — Fargeprofil",
+      section_mood: "07 — Stemning",
+      section_aspect: "08 — Sideforhold (Aspect Ratio)",
+      section_negative: "Valgfri Negativ Prompt",
+      negative_only_mj: "(kun Midjourney)",
+      negative_placeholder: "Ting du vil unngå (f.eks: text, watermark, blurry, extra limbs)...",
+      section_preview: "Sanntids Utkast",
+      preview_subtitle: "Sammensatt rå-prompt:",
+      preview_empty: "Ingenting valgt enda...",
+      btn_generate: "Lag perfekt prompt",
+      btn_random: "🎲 Overrask meg",
+      result_label: "Ferdig prompt",
+      btn_copy: "📋 Kopier til utklippstavle",
+      tip_text: "💡 <strong>Tips:</strong> Kopier prompten og lim den inn direkte i Grok (Imagine) eller Midjourney. For Flux/Grok fungerer naturlige setninger best.",
+      greeting_h4: "Casper sine snarveier",
+      greeting_p: "Her har du ferdige maler klare til bruk. Klikk på et kort for å laste det direkte inn i byggeren.",
+      counter_selected: "({n} valgt)",
+      toast_max3: "Maks 3 valg per kategori for best resultat!",
+      toast_copied: "✓ Prompt kopiert til utklippstavlen!",
+      toast_copy_fail: "Kunne ikke kopiere automatisk. Prøv å markere manuelt.",
+      toast_copy_err: "Klarte ikke å kopiere automatisk.",
+      toast_random: "🎲 Tilfeldig NSFW-kombinasjon valgt!",
+      toast_template: "Mal lastet inn i tekstboksen!",
+      toast_generated: "✦ NSFW Prompt klar! Kopier og bruk i Grok eller Midjourney.",
+      lang_toggle_label: "EN",
+      lang_toggle_title: "Switch to English",
+    },
+  };
+
+  const LANG_KEY = "grokxhat_lang";
+  let currentLang = detectLang();
+
+  function detectLang() {
+    try {
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved === "no" || saved === "en") return saved;
+    } catch {}
+    const nav = (navigator.language || "en").toLowerCase();
+    return nav.startsWith("n") ? "no" : "en";
+  }
+
+  function t(key, vars) {
+    let str = (STRINGS[currentLang] && STRINGS[currentLang][key]) || (STRINGS.en && STRINGS.en[key]) || key;
+    if (vars) {
+      for (const k in vars) str = str.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
+    }
+    return str;
+  }
+
+  function setLang(lang) {
+    if (lang !== "no" && lang !== "en") return;
+    currentLang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch {}
+    applyLang();
+  }
+
+  function toggleLang() {
+    setLang(currentLang === "no" ? "en" : "no");
+  }
+
+  function applyLang() {
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll("[data-i18n-html]").forEach(el => {
+      el.innerHTML = t(el.dataset.i18nHtml);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      el.placeholder = t(el.dataset.i18nPlaceholder);
+    });
+    const langBtn = document.getElementById("lang-toggle");
+    if (langBtn) {
+      langBtn.textContent = t("lang_toggle_label");
+      langBtn.title = t("lang_toggle_title");
+    }
+    // Refresh dynamic UI that depends on language
+    renderChips();
+    renderExamples();
+    restoreSelectionsToDom();
+    refreshAllCounters();
+    updateLivePreview();
+  }
+
   // Global App State
   const state = createInitialState();
 
 
   // Initialize the App
   window.onload = function() {
-    renderChips();
-    renderExamples();
-    updateLivePreview();
+    applyLang();
   };
 
   // Render Chip UI
@@ -607,15 +770,34 @@
     for (const key in DATA) {
       const container = document.getElementById(`chips-${key}`);
       if (!container) continue;
-      
+
       container.innerHTML = '';
       DATA[key].forEach((item, index) => {
         const btn = document.createElement('button');
         btn.className = 'chip';
-        btn.innerText = item.no;
+        btn.innerText = item[currentLang] || item.en;
         btn.onclick = () => toggleChip(key, index, btn);
         container.appendChild(btn);
       });
+    }
+  }
+
+  // Re-apply selection highlights after re-render (e.g. on language switch)
+  function restoreSelectionsToDom() {
+    for (const key in state.selected) {
+      const container = document.getElementById(`chips-${key}`);
+      if (!container) continue;
+      const chips = container.querySelectorAll('.chip');
+      state.selected[key].forEach(idx => {
+        if (chips[idx]) chips[idx].classList.add('selected');
+      });
+    }
+  }
+
+  function refreshAllCounters() {
+    for (const key in state.selected) {
+      const counter = document.getElementById(`count-${key}`);
+      if (counter) counter.innerText = t('counter_selected', { n: state.selected[key].length });
     }
   }
 
@@ -623,7 +805,7 @@
   function toggleChip(category, index, element) {
     const result = toggleSelection(state, category, index);
     if (!result.accepted) {
-      showToast("Maks 3 valg per kategori for best resultat!");
+      showToast(t('toast_max3'));
       return;
     }
 
@@ -634,9 +816,7 @@
     });
 
     const counter = document.getElementById(`count-${category}`);
-    if (counter) {
-      counter.innerText = `(${state.selected[category].length} valgt)`;
-    }
+    if (counter) counter.innerText = t('counter_selected', { n: state.selected[category].length });
 
     updateLivePreview();
   }
@@ -653,7 +833,7 @@
   function showTab(tabId) {
     document.getElementById('tab-builder').style.display = tabId === 'builder' ? 'block' : 'none';
     document.getElementById('tab-examples').style.display = tabId === 'examples' ? 'block' : 'none';
-    
+
     document.getElementById('tab-btn-builder').classList.toggle('active', tabId === 'builder');
     document.getElementById('tab-btn-examples').classList.toggle('active', tabId === 'examples');
   }
@@ -661,42 +841,53 @@
   // Render Premade Examples Page
   function renderExamples() {
     const list = document.getElementById('examples-list');
+    if (!list) return;
     list.innerHTML = '';
-    
+
     EXAMPLES.forEach((ex, idx) => {
       const card = document.createElement('div');
       card.className = 'tip-card';
       card.onclick = () => loadTemplate(idx);
-      
+
+      const title = (ex.title[currentLang] || ex.title.en);
+      const category = (ex.category[currentLang] || ex.category.en);
+      const desc = (ex.desc[currentLang] || ex.desc.en);
+
       card.innerHTML = `
         <div class="tip-header">
-          <span class="tip-title">${ex.title}</span>
-          <span class="tip-tag">${ex.category}</span>
+          <span class="tip-title">${escapeHTML(title)}</span>
+          <span class="tip-tag">${escapeHTML(category)}</span>
         </div>
-        <div class="tip-desc">${ex.desc}</div>
-        <div class="tip-prompt">${ex.prompt}</div>
+        <div class="tip-desc">${escapeHTML(desc)}</div>
+        <div class="tip-prompt">${escapeHTML(ex.prompt)}</div>
       `;
       list.appendChild(card);
     });
   }
 
+  function escapeHTML(str) {
+    const d = document.createElement('div');
+    d.textContent = String(str);
+    return d.innerHTML;
+  }
+
   // Load a template into the builder
   function loadTemplate(index) {
     const ex = EXAMPLES[index];
-    
+
     for (const key in state.selected) {
       state.selected[key] = [];
     }
-    
+
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-    document.querySelectorAll('.counter').forEach(el => el.innerText = '(0 valgt)');
-    
+    refreshAllCounters();
+
     document.getElementById('details').value = ex.prompt;
     showTab('builder');
     updateLivePreview();
-    
+
     document.getElementById('details').scrollIntoView({ behavior: 'smooth' });
-    showToast("Mal lastet inn i tekstboksen!");
+    showToast(t('toast_template'));
   }
 
   // Build the prompt locally from active UI chips
@@ -708,8 +899,15 @@
 
   // Update live preview block
   function updateLivePreview() {
+    const previewEl = document.getElementById('live-preview-text');
+    if (!previewEl) return;
     const previewText = buildPromptLocal();
-    document.getElementById('live-preview-text').innerText = previewText;
+    // Show the localised "nothing selected" message when the user hasn't touched anything yet
+    if (previewText === 'A beautiful detailed scene.' || previewText === 'A beautiful detailed scene') {
+      previewEl.innerText = t('preview_empty');
+    } else {
+      previewEl.innerText = previewText;
+    }
   }
 
   // Copy to clipboard
@@ -723,18 +921,18 @@
     document.body.appendChild(tempTextArea);
     tempTextArea.focus();
     tempTextArea.select();
-    
+
     try {
       const successful = document.execCommand('copy');
       if (successful) {
-        showToast("✓ Prompt kopiert til utklippstavlen!");
+        showToast(t('toast_copied'));
       } else {
-        showToast("Kunne ikke kopiere automatisk. Prøv å markere manuelt.");
+        showToast(t('toast_copy_fail'));
       }
     } catch (err) {
-      showToast("Klarte ikke å kopiere automatisk.");
+      showToast(t('toast_copy_err'));
     }
-    
+
     document.body.removeChild(tempTextArea);
   }
 
@@ -744,7 +942,7 @@
     const toast = document.getElementById('toast');
     toast.innerText = message;
     toast.classList.add('show');
-    
+
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => {
       toast.classList.remove('show');
@@ -756,23 +954,12 @@
     state.selected = randomizeSelection({ DATA });
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
 
-    for (const key in DATA) {
-      const container = document.getElementById(`chips-${key}`);
-      if (!container) continue;
-      const chips = container.querySelectorAll('.chip');
-      state.selected[key].forEach(idx => {
-        if(chips[idx]) chips[idx].classList.add('selected');
-      });
-
-      const counter = document.getElementById(`count-${key}`);
-      if (counter) {
-        counter.innerText = `(${state.selected[key].length} valgt)`;
-      }
-    }
+    restoreSelectionsToDom();
+    refreshAllCounters();
 
     document.getElementById('details').value = "";
     updateLivePreview();
-    showToast("🎲 Tilfeldig NSFW-kombinasjon valgt!");
+    showToast(t('toast_random'));
   }
 
   // Main generate function - fully local
@@ -783,9 +970,9 @@
 
     resultText.innerText = basePrompt;
     resultBox.classList.add('visible');
-    
+
     resultBox.scrollIntoView({ behavior: 'smooth' });
-    showToast("✦ NSFW Prompt klar! Kopier og bruk i Grok eller Midjourney.");
+    showToast(t('toast_generated'));
   }
 
   // Inline onclick="..." attributes in the HTML need these on the window
@@ -795,6 +982,7 @@
   window.generate = generate;
   window.copyPrompt = copyPrompt;
   window.randomize = randomize;
+  window.toggleLang = toggleLang;
 </script>
 </body>
 </html>

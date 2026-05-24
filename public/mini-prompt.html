@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -97,6 +97,10 @@
       cursor: pointer;
       display: grid; place-items: center;
       transition: background 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
     }
     .icon-btn:hover { background: var(--surface-hi); color: var(--text); border-color: var(--border-hi); }
     .icon-btn:active { transform: scale(0.96); }
@@ -446,14 +450,15 @@
       <div class="brand-mark">G</div>
       <div class="brand-text">
         <span class="brand-title">Mini-Prompt</span>
-        <span class="brand-sub">Casper · v3.0</span>
+        <span class="brand-sub" data-i18n="brand_sub">Casper · v3.0</span>
       </div>
     </div>
     <div class="topbar-actions">
-      <button class="icon-btn" id="randomize-btn" aria-label="Tilfeldig prompt" title="Tilfeldig">
+      <button class="icon-btn" id="lang-toggle-btn" type="button" data-i18n-title="lang_toggle_title" title="Switch language">EN</button>
+      <button class="icon-btn" id="randomize-btn" data-i18n-aria="aria_random" data-i18n-title="title_random" aria-label="Random prompt" title="Random">
         <svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
       </button>
-      <button class="icon-btn" id="reset-btn" aria-label="Nullstill alt" title="Nullstill">
+      <button class="icon-btn" id="reset-btn" data-i18n-aria="aria_reset" data-i18n-title="title_reset" aria-label="Reset everything" title="Reset">
         <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
       </button>
     </div>
@@ -464,67 +469,69 @@
     <!-- Presets -->
     <div class="section">
       <div class="section-head">
-        <span class="label">Maler</span>
+        <span class="label" data-i18n="label_presets">Presets</span>
       </div>
-      <div class="preset-row" id="preset-row" role="toolbar" aria-label="Maler"></div>
+      <div class="preset-row" id="preset-row" role="toolbar" data-i18n-aria="aria_presets" aria-label="Presets"></div>
     </div>
 
     <!-- Subject -->
     <div class="section">
       <div class="section-head">
-        <span class="label">Motiv</span>
+        <span class="label" data-i18n="label_subject">Subject</span>
         <span class="label-counter" id="subject-counter">0</span>
       </div>
       <textarea id="subject" class="subject" rows="2" maxlength="500"
-        placeholder="Hva vil du lage? F.eks: En rev som drikker te i et bibliotek..."
+        data-i18n-placeholder="subject_placeholder"
+        placeholder="What do you want to create? E.g. A fox sipping tea in a library..."
         autocomplete="off" autocorrect="off" spellcheck="false"></textarea>
     </div>
 
     <!-- Style -->
     <div class="section">
-      <div class="section-head"><span class="label">Stil</span></div>
-      <div class="chips" data-group="style" role="group" aria-label="Stil"></div>
+      <div class="section-head"><span class="label" data-i18n="label_style">Style</span></div>
+      <div class="chips" data-group="style" role="group" data-i18n-aria="label_style" aria-label="Style"></div>
     </div>
 
     <!-- Lighting -->
     <div class="section">
-      <div class="section-head"><span class="label">Lys</span></div>
-      <div class="chips" data-group="lighting" role="group" aria-label="Lyssetting"></div>
+      <div class="section-head"><span class="label" data-i18n="label_lighting">Lighting</span></div>
+      <div class="chips" data-group="lighting" role="group" data-i18n-aria="label_lighting" aria-label="Lighting"></div>
     </div>
 
     <!-- Aspect -->
     <div class="section">
-      <div class="section-head"><span class="label">Format</span></div>
-      <div class="aspects" data-group="aspect" role="radiogroup" aria-label="Sideforhold"></div>
+      <div class="section-head"><span class="label" data-i18n="label_aspect">Aspect</span></div>
+      <div class="aspects" data-group="aspect" role="radiogroup" data-i18n-aria="label_aspect" aria-label="Aspect ratio"></div>
     </div>
 
     <!-- Advanced -->
     <details>
-      <summary>Avansert</summary>
+      <summary data-i18n="summary_advanced">Advanced</summary>
 
       <div class="section">
-        <div class="section-head"><span class="label">Stemning</span></div>
-        <div class="chips" data-group="mood" role="group" aria-label="Stemning"></div>
+        <div class="section-head"><span class="label" data-i18n="label_mood">Mood</span></div>
+        <div class="chips" data-group="mood" role="group" data-i18n-aria="label_mood" aria-label="Mood"></div>
       </div>
 
       <div class="section">
-        <div class="section-head"><span class="label">Kamera</span></div>
-        <div class="chips" data-group="camera" role="group" aria-label="Kamera"></div>
+        <div class="section-head"><span class="label" data-i18n="label_camera">Camera</span></div>
+        <div class="chips" data-group="camera" role="group" data-i18n-aria="label_camera" aria-label="Camera"></div>
       </div>
 
       <div class="section">
-        <div class="section-head"><span class="label">Kvalitet</span></div>
-        <div class="chips" data-group="quality" role="group" aria-label="Kvalitet"></div>
+        <div class="section-head"><span class="label" data-i18n="label_quality">Quality</span></div>
+        <div class="chips" data-group="quality" role="group" data-i18n-aria="label_quality" aria-label="Quality"></div>
       </div>
 
       <div class="section">
         <label class="neg-toggle">
           <input type="checkbox" id="neg-enable">
           <span class="switch" aria-hidden="true"></span>
-          <span>Inkluder negativ prompt</span>
+          <span data-i18n="neg_include">Include negative prompt</span>
         </label>
         <textarea id="neg-text" class="subject neg-input" rows="2"
-          placeholder="Ting å unngå: blurry, watermark, deformed..."
+          data-i18n-placeholder="neg_placeholder"
+          placeholder="Things to avoid: blurry, watermark, deformed..."
           hidden></textarea>
       </div>
     </details>
@@ -532,25 +539,25 @@
     <!-- Output -->
     <div class="output-wrap">
       <div class="output-head">
-        <span class="label">Ferdig prompt</span>
-        <span class="label-counter" id="output-counter">0 tegn</span>
+        <span class="label" data-i18n="label_output">Finished prompt</span>
+        <span class="label-counter" id="output-counter">0 chars</span>
       </div>
-      <div class="output empty" id="output" aria-live="polite">Velg en mal eller skriv et motiv for å starte…</div>
+      <div class="output empty" id="output" aria-live="polite">Pick a preset or write a subject to start…</div>
     </div>
 
     <div class="actions">
       <button class="btn btn-primary" id="copy-btn" type="button">
         <svg viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        Kopier prompt
+        <span data-i18n="btn_copy">Copy prompt</span>
       </button>
-      <button class="btn btn-ghost" id="share-btn" type="button" aria-label="Del">
+      <button class="btn btn-ghost" id="share-btn" type="button" data-i18n-aria="aria_share" aria-label="Share">
         <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
       </button>
     </div>
 
     <!-- History -->
     <details id="history-details">
-      <summary>Nylige</summary>
+      <summary data-i18n="summary_recent">Recent</summary>
       <div class="section">
         <div class="history-list" id="history-list"></div>
       </div>
@@ -560,7 +567,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite">
   <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-  <span id="toast-text">Kopiert!</span>
+  <span id="toast-text">Copied!</span>
 </div>
 
 <script>
@@ -569,62 +576,153 @@
 
   const STORAGE_KEY = "grok_mini_prompt_v3";
   const HISTORY_KEY = "grok_mini_prompt_history_v3";
+  const LANG_KEY = "grokxhat_lang";
   const MAX_HISTORY = 8;
 
+  // ─── i18n ───
+  const STRINGS = {
+    en: {
+      brand_sub: "Casper · v3.0",
+      lang_toggle_label: "NO",
+      lang_toggle_title: "Bytt til norsk",
+      title_random: "Random",
+      aria_random: "Random prompt",
+      title_reset: "Reset",
+      aria_reset: "Reset everything",
+      label_presets: "Presets",
+      aria_presets: "Presets",
+      label_subject: "Subject",
+      subject_placeholder: "What do you want to create? E.g. A fox sipping tea in a library...",
+      label_style: "Style",
+      label_lighting: "Lighting",
+      label_aspect: "Aspect",
+      summary_advanced: "Advanced",
+      label_mood: "Mood",
+      label_camera: "Camera",
+      label_quality: "Quality",
+      neg_include: "Include negative prompt",
+      neg_placeholder: "Things to avoid: blurry, watermark, deformed...",
+      label_output: "Finished prompt",
+      output_empty: "Pick a preset or write a subject to start…",
+      output_chars: "{n} chars",
+      btn_copy: "Copy prompt",
+      aria_share: "Share",
+      summary_recent: "Recent",
+      history_empty: "No prompts yet.",
+      history_click_copy: "Click to copy",
+      toast_copied: "Copied!",
+      toast_reset: "Reset",
+      toast_random: "Random mix!",
+      toast_preset_applied: "{name} applied",
+    },
+    no: {
+      brand_sub: "Casper · v3.0",
+      lang_toggle_label: "EN",
+      lang_toggle_title: "Switch to English",
+      title_random: "Tilfeldig",
+      aria_random: "Tilfeldig prompt",
+      title_reset: "Nullstill",
+      aria_reset: "Nullstill alt",
+      label_presets: "Maler",
+      aria_presets: "Maler",
+      label_subject: "Motiv",
+      subject_placeholder: "Hva vil du lage? F.eks: En rev som drikker te i et bibliotek...",
+      label_style: "Stil",
+      label_lighting: "Lys",
+      label_aspect: "Format",
+      summary_advanced: "Avansert",
+      label_mood: "Stemning",
+      label_camera: "Kamera",
+      label_quality: "Kvalitet",
+      neg_include: "Inkluder negativ prompt",
+      neg_placeholder: "Ting å unngå: blurry, watermark, deformed...",
+      label_output: "Ferdig prompt",
+      output_empty: "Velg en mal eller skriv et motiv for å starte…",
+      output_chars: "{n} tegn",
+      btn_copy: "Kopier prompt",
+      aria_share: "Del",
+      summary_recent: "Nylige",
+      history_empty: "Ingen prompts ennå.",
+      history_click_copy: "Klikk for å kopiere",
+      toast_copied: "Kopiert!",
+      toast_reset: "Nullstilt",
+      toast_random: "Tilfeldig miks!",
+      toast_preset_applied: "{name} brukt",
+    },
+  };
+
+  let currentLang = (() => {
+    try {
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved === "no" || saved === "en") return saved;
+    } catch {}
+    return (navigator.language || "en").toLowerCase().startsWith("n") ? "no" : "en";
+  })();
+
+  function t(key, vars) {
+    let str = (STRINGS[currentLang] && STRINGS[currentLang][key]) || (STRINGS.en && STRINGS.en[key]) || key;
+    if (vars) for (const k in vars) str = str.replace(new RegExp("\\{" + k + "\\}", "g"), vars[k]);
+    return str;
+  }
+
+  // Each chip option: [noLabel, enLabel, value]. Aspects add width+height for the visual glyph.
   const OPTIONS = {
     style: [
-      ["Foto", "photorealistic, 8k resolution, highly detailed texture"],
-      ["Cinematisk", "cinematic film still, high dynamic range, dramatic composition"],
-      ["Anime", "anime style illustration, vibrant colors, clean lines"],
-      ["3D Render", "detailed 3D digital render, octane render style"],
-      ["Fantasy", "epic dark fantasy concept art, moody atmosphere"],
-      ["Maleri", "oil painting style, visible brush strokes, painterly"],
-      ["Skisse", "pencil sketch, hand-drawn, monochrome"],
-      ["Pixel", "pixel art, 16-bit retro style"],
+      ["Foto", "Photo", "photorealistic, 8k resolution, highly detailed texture"],
+      ["Cinematisk", "Cinematic", "cinematic film still, high dynamic range, dramatic composition"],
+      ["Anime", "Anime", "anime style illustration, vibrant colors, clean lines"],
+      ["3D Render", "3D Render", "detailed 3D digital render, octane render style"],
+      ["Fantasy", "Fantasy", "epic dark fantasy concept art, moody atmosphere"],
+      ["Maleri", "Painting", "oil painting style, visible brush strokes, painterly"],
+      ["Skisse", "Sketch", "pencil sketch, hand-drawn, monochrome"],
+      ["Pixel", "Pixel", "pixel art, 16-bit retro style"],
     ],
     lighting: [
-      ["Gylden time", "golden hour lighting"],
-      ["Neon", "neon cyberpunk illumination"],
-      ["Dramatisk", "dramatic studio lighting, heavy contrast"],
-      ["Naturlig", "soft natural overcast daylight"],
-      ["Måneskinn", "moody moonlight, blue tones"],
-      ["Volumetrisk", "volumetric god rays, light shafts"],
+      ["Gylden time", "Golden hour", "golden hour lighting"],
+      ["Neon", "Neon", "neon cyberpunk illumination"],
+      ["Dramatisk", "Dramatic", "dramatic studio lighting, heavy contrast"],
+      ["Naturlig", "Natural", "soft natural overcast daylight"],
+      ["Måneskinn", "Moonlight", "moody moonlight, blue tones"],
+      ["Volumetrisk", "Volumetric", "volumetric god rays, light shafts"],
     ],
     mood: [
-      ["Drømmende", "dreamy, ethereal atmosphere"],
-      ["Mørk", "dark, ominous mood"],
-      ["Lekent", "playful, whimsical vibe"],
-      ["Episk", "epic, awe-inspiring scale"],
-      ["Minimal", "minimalist, clean composition"],
+      ["Drømmende", "Dreamy", "dreamy, ethereal atmosphere"],
+      ["Mørk", "Dark", "dark, ominous mood"],
+      ["Lekent", "Playful", "playful, whimsical vibe"],
+      ["Episk", "Epic", "epic, awe-inspiring scale"],
+      ["Minimal", "Minimal", "minimalist, clean composition"],
     ],
     camera: [
-      ["Nærbilde", "close-up shot, shallow depth of field"],
-      ["Vidvinkel", "wide-angle lens, 24mm"],
-      ["Portrett", "portrait shot, 85mm bokeh"],
-      ["Drone", "aerial drone shot, top-down view"],
-      ["Makro", "extreme macro photography"],
+      ["Nærbilde", "Close-up", "close-up shot, shallow depth of field"],
+      ["Vidvinkel", "Wide", "wide-angle lens, 24mm"],
+      ["Portrett", "Portrait", "portrait shot, 85mm bokeh"],
+      ["Drone", "Drone", "aerial drone shot, top-down view"],
+      ["Makro", "Macro", "extreme macro photography"],
     ],
     quality: [
-      ["Detaljert", "ultra-detailed, intricate details"],
-      ["Skarp", "sharp focus, crystal clear"],
-      ["Trending", "trending on artstation, masterpiece"],
-      ["HDR", "HDR, vibrant tones"],
+      ["Detaljert", "Detailed", "ultra-detailed, intricate details"],
+      ["Skarp", "Sharp", "sharp focus, crystal clear"],
+      ["Trending", "Trending", "trending on artstation, masterpiece"],
+      ["HDR", "HDR", "HDR, vibrant tones"],
     ],
     aspect: [
-      ["16:9", "--ar 16:9", 24, 14],
-      ["9:16", "--ar 9:16", 14, 24],
-      ["1:1", "--ar 1:1", 20, 20],
-      ["4:3", "--ar 4:3", 22, 17],
+      ["16:9", "16:9", "--ar 16:9", 24, 14],
+      ["9:16", "9:16", "--ar 9:16", 14, 24],
+      ["1:1", "1:1", "--ar 1:1", 20, 20],
+      ["4:3", "4:3", "--ar 4:3", 22, 17],
     ],
   };
 
+  const labelOf = (entry) => entry[currentLang === "no" ? 0 : 1];
+  const valueOf = (entry) => entry[2];
+
   const PRESETS = [
-    { emoji: "✨", label: "Portrett", apply: { style: ["photorealistic, 8k resolution, highly detailed texture"], lighting: ["golden hour lighting"], camera: ["portrait shot, 85mm bokeh"], aspect: "--ar 9:16" } },
-    { emoji: "🏔️", label: "Landskap", apply: { style: ["cinematic film still, high dynamic range, dramatic composition"], lighting: ["golden hour lighting"], camera: ["wide-angle lens, 24mm"], aspect: "--ar 16:9" } },
-    { emoji: "🤖", label: "Cyberpunk", apply: { style: ["detailed 3D digital render, octane render style"], lighting: ["neon cyberpunk illumination"], mood: ["dark, ominous mood"], aspect: "--ar 16:9" } },
-    { emoji: "🐉", label: "Fantasy", apply: { style: ["epic dark fantasy concept art, moody atmosphere"], lighting: ["volumetric god rays, light shafts"], mood: ["epic, awe-inspiring scale"], aspect: "--ar 16:9" } },
-    { emoji: "🎨", label: "Anime", apply: { style: ["anime style illustration, vibrant colors, clean lines"], mood: ["playful, whimsical vibe"], aspect: "--ar 9:16" } },
-    { emoji: "📐", label: "Logo", apply: { style: ["minimalist, clean composition"], quality: ["sharp focus, crystal clear"], aspect: "--ar 1:1" } },
+    { emoji: "✨", no: "Portrett", en: "Portrait", apply: { style: ["photorealistic, 8k resolution, highly detailed texture"], lighting: ["golden hour lighting"], camera: ["portrait shot, 85mm bokeh"], aspect: "--ar 9:16" } },
+    { emoji: "🏔️", no: "Landskap", en: "Landscape", apply: { style: ["cinematic film still, high dynamic range, dramatic composition"], lighting: ["golden hour lighting"], camera: ["wide-angle lens, 24mm"], aspect: "--ar 16:9" } },
+    { emoji: "🤖", no: "Cyberpunk", en: "Cyberpunk", apply: { style: ["detailed 3D digital render, octane render style"], lighting: ["neon cyberpunk illumination"], mood: ["dark, ominous mood"], aspect: "--ar 16:9" } },
+    { emoji: "🐉", no: "Fantasy", en: "Fantasy", apply: { style: ["epic dark fantasy concept art, moody atmosphere"], lighting: ["volumetric god rays, light shafts"], mood: ["epic, awe-inspiring scale"], aspect: "--ar 16:9" } },
+    { emoji: "🎨", no: "Anime", en: "Anime", apply: { style: ["anime style illustration, vibrant colors, clean lines"], mood: ["playful, whimsical vibe"], aspect: "--ar 9:16" } },
+    { emoji: "📐", no: "Logo", en: "Logo", apply: { style: ["minimalist, clean composition"], quality: ["sharp focus, crystal clear"], aspect: "--ar 1:1" } },
   ];
 
   const state = {
@@ -649,6 +747,7 @@
     shareBtn: $("#share-btn"),
     resetBtn: $("#reset-btn"),
     randomizeBtn: $("#randomize-btn"),
+    langToggleBtn: $("#lang-toggle-btn"),
     presetRow: $("#preset-row"),
     historyList: $("#history-list"),
     historyDetails: $("#history-details"),
@@ -681,12 +780,45 @@
     renderHistory();
   }
 
+  // ─── Language ───
+  function setLang(lang) {
+    if (lang !== "no" && lang !== "en") return;
+    currentLang = lang;
+    try { localStorage.setItem(LANG_KEY, lang); } catch {}
+    applyLang();
+  }
+  function toggleLang() {
+    setLang(currentLang === "no" ? "en" : "no");
+  }
+  function applyLang() {
+    document.documentElement.lang = currentLang;
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      el.placeholder = t(el.dataset.i18nPlaceholder);
+    });
+    document.querySelectorAll("[data-i18n-title]").forEach(el => {
+      el.title = t(el.dataset.i18nTitle);
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+      el.setAttribute("aria-label", t(el.dataset.i18nAria));
+    });
+    if (els.langToggleBtn) els.langToggleBtn.textContent = t("lang_toggle_label");
+    renderPresets();
+    refreshAllChips();
+    renderHistory();
+    updateAll();
+  }
+
   // ─── Render ───
   function renderChips(group) {
     const container = $(`[data-group="${group}"]`);
     if (!container) return;
     container.innerHTML = "";
-    OPTIONS[group].forEach(([label, value]) => {
+    OPTIONS[group].forEach((entry) => {
+      const label = labelOf(entry);
+      const value = valueOf(entry);
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "chip";
@@ -701,7 +833,11 @@
   function renderAspects() {
     const container = $('[data-group="aspect"]');
     container.innerHTML = "";
-    OPTIONS.aspect.forEach(([label, value, w, h]) => {
+    OPTIONS.aspect.forEach((entry) => {
+      const label = labelOf(entry);
+      const value = valueOf(entry);
+      const w = entry[3];
+      const h = entry[4];
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "aspect";
@@ -710,19 +846,21 @@
       const active = state.aspect === value;
       btn.setAttribute("aria-checked", active ? "true" : "false");
       btn.setAttribute("aria-pressed", active ? "true" : "false");
-      btn.innerHTML = `<span class="aspect-glyph" style="width:${w}px;height:${h}px"></span><span class="aspect-label">${label}</span>`;
+      btn.innerHTML = `<span class="aspect-glyph" style="width:${w}px;height:${h}px"></span><span class="aspect-label">${escapeHTML(label)}</span>`;
       container.appendChild(btn);
     });
   }
 
   function renderPresets() {
+    if (!els.presetRow) return;
     els.presetRow.innerHTML = "";
     PRESETS.forEach((p, i) => {
+      const label = currentLang === "no" ? p.no : p.en;
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "preset";
       btn.dataset.idx = i;
-      btn.innerHTML = `<span class="preset-emoji">${p.emoji}</span><span>${p.label}</span>`;
+      btn.innerHTML = `<span class="preset-emoji">${p.emoji}</span><span>${escapeHTML(label)}</span>`;
       els.presetRow.appendChild(btn);
     });
   }
@@ -733,7 +871,7 @@
     if (hist.length === 0) {
       const empty = document.createElement("div");
       empty.className = "history-empty";
-      empty.textContent = "Ingen prompts ennå.";
+      empty.textContent = t("history_empty");
       els.historyList.appendChild(empty);
       return;
     }
@@ -741,7 +879,7 @@
       const item = document.createElement("button");
       item.type = "button";
       item.className = "history-item";
-      item.title = "Klikk for å kopiere";
+      item.title = t("history_click_copy");
       item.dataset.prompt = p;
       item.innerHTML = `<span class="history-text">${escapeHTML(p)}</span>`;
       els.historyList.appendChild(item);
@@ -791,8 +929,8 @@
     const { plain, segments, hasAspect, hasNeg } = buildPrompt();
     if (!plain) {
       els.output.className = "output empty";
-      els.output.textContent = "Velg en mal eller skriv et motiv for å starte…";
-      els.outputCounter.textContent = "0 tegn";
+      els.output.textContent = t("output_empty");
+      els.outputCounter.textContent = t("output_chars", { n: 0 });
       els.copyBtn.disabled = true;
       els.shareBtn.disabled = true;
       return;
@@ -831,7 +969,7 @@
       els.output.appendChild(n);
     }
 
-    els.outputCounter.textContent = `${plain.length} tegn`;
+    els.outputCounter.textContent = t("output_chars", { n: plain.length });
     els.copyBtn.disabled = false;
     els.shareBtn.disabled = false;
   }
@@ -894,11 +1032,11 @@
       } else {
         legacyCopy(plain);
       }
-      showToast("Kopiert!");
+      showToast(t("toast_copied"));
       pushHistory(plain);
     } catch {
       legacyCopy(plain);
-      showToast("Kopiert!");
+      showToast(t("toast_copied"));
       pushHistory(plain);
     }
   }
@@ -941,7 +1079,7 @@
     els.negText.hidden = true;
     refreshAllChips();
     updateAll();
-    showToast("Nullstilt");
+    showToast(t("toast_reset"));
   }
 
   function randomize() {
@@ -949,7 +1087,7 @@
       const copy = [...arr];
       const out = [];
       for (let i = 0; i < n && copy.length; i++) {
-        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0][1]);
+        out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0][2]);
       }
       return out;
     };
@@ -958,10 +1096,10 @@
     state.mood = Math.random() > 0.4 ? pickN(OPTIONS.mood, 1) : [];
     state.camera = Math.random() > 0.5 ? pickN(OPTIONS.camera, 1) : [];
     state.quality = pickN(OPTIONS.quality, 1);
-    state.aspect = OPTIONS.aspect[Math.floor(Math.random() * OPTIONS.aspect.length)][1];
+    state.aspect = OPTIONS.aspect[Math.floor(Math.random() * OPTIONS.aspect.length)][2];
     refreshAllChips();
     updateAll();
-    showToast("Tilfeldig miks!");
+    showToast(t("toast_random"));
   }
 
   let toastTimer;
@@ -993,8 +1131,9 @@
       }
       const preset = e.target.closest(".preset");
       if (preset) {
-        applyPreset(PRESETS[+preset.dataset.idx]);
-        showToast(PRESETS[+preset.dataset.idx].label + " brukt");
+        const p = PRESETS[+preset.dataset.idx];
+        applyPreset(p);
+        showToast(t("toast_preset_applied", { name: currentLang === "no" ? p.no : p.en }));
         return;
       }
       const hist = e.target.closest(".history-item");
@@ -1002,7 +1141,7 @@
         const text = hist.dataset.prompt;
         if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).catch(() => legacyCopy(text));
         else legacyCopy(text);
-        showToast("Kopiert!");
+        showToast(t("toast_copied"));
         return;
       }
     });
@@ -1011,6 +1150,7 @@
     els.shareBtn.addEventListener("click", sharePrompt);
     els.resetBtn.addEventListener("click", resetAll);
     els.randomizeBtn.addEventListener("click", randomize);
+    els.langToggleBtn.addEventListener("click", toggleLang);
 
     els.negEnable.addEventListener("change", (e) => {
       state.neg.enabled = e.target.checked;
@@ -1038,11 +1178,8 @@
     els.negText.value = state.neg.text || "";
     els.negText.hidden = !state.neg.enabled;
 
-    renderPresets();
-    refreshAllChips();
-    renderHistory();
     wire();
-    updateAll();
+    applyLang(); // covers renderPresets, refreshAllChips, renderHistory, updateAll
   }
 
   if (document.readyState === "loading") {

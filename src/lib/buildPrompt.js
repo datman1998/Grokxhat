@@ -1,7 +1,7 @@
 export function buildPrompt({ state, customText = '', negative = '', DATA }) {
   const parts = [];
 
-  const subjects = state.selected.subject.map(i => DATA.subject[i].en);
+  const subjects = state.selected.subject.map(i => DATA.subject[i].prompt);
   const trimmedCustom = customText.trim();
 
   if (trimmedCustom) {
@@ -12,12 +12,12 @@ export function buildPrompt({ state, customText = '', negative = '', DATA }) {
     parts.push('A beautiful detailed scene');
   }
 
-  state.selected.outfit.forEach(i => parts.push(DATA.outfit[i].en));
-  state.selected.style.forEach(i => parts.push(DATA.style[i].en));
-  state.selected.lighting.forEach(i => parts.push(DATA.lighting[i].en));
-  state.selected.camera.forEach(i => parts.push(DATA.camera[i].en));
-  state.selected.color.forEach(i => parts.push(DATA.color[i].en));
-  state.selected.mood.forEach(i => parts.push(DATA.mood[i].en));
+  state.selected.outfit.forEach(i => parts.push(DATA.outfit[i].prompt));
+  state.selected.style.forEach(i => parts.push(DATA.style[i].prompt));
+  state.selected.lighting.forEach(i => parts.push(DATA.lighting[i].prompt));
+  state.selected.camera.forEach(i => parts.push(DATA.camera[i].prompt));
+  state.selected.color.forEach(i => parts.push(DATA.color[i].prompt));
+  state.selected.mood.forEach(i => parts.push(DATA.mood[i].prompt));
 
   let finalPrompt = '';
 
@@ -30,7 +30,7 @@ export function buildPrompt({ state, customText = '', negative = '', DATA }) {
   }
 
   if (state.selected.aspect.length > 0) {
-    const arCode = DATA.aspect[state.selected.aspect[0]].en;
+    const arCode = DATA.aspect[state.selected.aspect[0]].prompt;
     finalPrompt += ' ' + arCode;
   }
 
