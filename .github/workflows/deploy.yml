@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: CI
 
 on:
   push:
@@ -8,12 +8,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   test:
@@ -34,25 +28,20 @@ jobs:
       - name: Run tests
         run: npm test
 
-  deploy:
+  notify:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: test
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Send deployment notification
+        uses: Ilshidur/action-discord@master
         with:
-          path: '.'
+          args: |
+            🚀 **Grokxhat** deployet til produksjon via Vercel!
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            Commit: ${{ github.sha }}
+            Branch: main
+            Author: ${{ github.actor }}
+            Se: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
