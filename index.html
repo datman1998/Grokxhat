@@ -104,6 +104,9 @@
       cursor: pointer;
       font-family: inherit;
       letter-spacing: 0.06em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
       transition: color 0.2s ease, border-color 0.2s ease;
     }
     .lang-toggle:hover { color: var(--gold); border-color: var(--gold-dim); }
@@ -482,6 +485,7 @@
     </div>
   </div>
   <div class="header-actions">
+    <a class="lang-toggle" href="/prompt-studio.html" title="Open Prompt Studio">STUDIO →</a>
     <button id="lang-toggle" class="lang-toggle" type="button" onclick="toggleLang()" title="Switch language">EN</button>
     <div class="tabs">
       <button id="tab-btn-builder" class="tab active" onclick="showTab('builder')" data-i18n="tab_build">Build</button>
